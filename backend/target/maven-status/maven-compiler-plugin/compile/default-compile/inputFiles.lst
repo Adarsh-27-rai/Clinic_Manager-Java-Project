@@ -1,0 +1,17 @@
+D:\601A folder\Clinic-Manager-main\backend\src\main\java\com\clinic\ClinicManagementApplication.java
+D:\601A folder\Clinic-Manager-main\backend\src\main\java\com\clinic\controller\AuthController.java
+D:\601A folder\Clinic-Manager-main\backend\src\main\java\com\clinic\controller\PatientController.java
+D:\601A folder\Clinic-Manager-main\backend\src\main\java\com\clinic\dto\AuthRequest.java
+D:\601A folder\Clinic-Manager-main\backend\src\main\java\com\clinic\dto\AuthResponse.java
+D:\601A folder\Clinic-Manager-main\backend\src\main\java\com\clinic\dto\PatientRequest.java
+D:\601A folder\Clinic-Manager-main\backend\src\main\java\com\clinic\dto\PatientResponse.java
+D:\601A folder\Clinic-Manager-main\backend\src\main\java\com\clinic\exception\GlobalExceptionHandler.java
+D:\601A folder\Clinic-Manager-main\backend\src\main\java\com\clinic\exception\ResourceNotFoundException.java
+D:\601A folder\Clinic-Manager-main\backend\src\main\java\com\clinic\model\Patient.java
+D:\601A folder\Clinic-Manager-main\backend\src\main\java\com\clinic\model\User.java
+D:\601A folder\Clinic-Manager-main\backend\src\main\java\com\clinic\repository\PatientRepository.java
+D:\601A folder\Clinic-Manager-main\backend\src\main\java\com\clinic\repository\UserRepository.java
+D:\601A folder\Clinic-Manager-main\backend\src\main\java\com\clinic\service\PatientService.java
+D:\601A folder\Clinic-Manager-main\backend\src\main\java\com\clinic\service\PatientServiceImpl.java
+D:\601A folder\Clinic-Manager-main\backend\src\main\java\com\clinic\service\UserService.java
+D:\601A folder\Clinic-Manager-main\backend\src\main\java\com\clinic\service\UserServiceImpl.java
