@@ -1,16 +1,33 @@
-import axios from 'axios'
+﻿import axios from 'axios'
 
-const BASE_URL = 'http://localhost:8080/api/patients'
+const API = axios.create({
+  baseURL: 'http://localhost:8080/api/patients',
+})
 
-export const getAllPatients = () => axios.get(BASE_URL)
+API.interceptors.request.use((config) => {
+  const userStr = localStorage.getItem('user')
+  if (userStr) {
+    try {
+      const user = JSON.parse(userStr)
+      if (user?.id) {
+        config.headers['X-User-Id'] = user.id.toString()
+      }
+    } catch (e) {
+      console.error('Failed to parse user from localStorage', e)
+    }
+  }
+  return config
+})
 
-export const getPatientById = (id) => axios.get(`${BASE_URL}/${id}`)
+export const getAllPatients = () => API.get('')
 
-export const createPatient = (data) => axios.post(BASE_URL, data)
+export const getPatientById = (id) => API.get(`/${id}`)
 
-export const updatePatient = (id, data) => axios.put(`${BASE_URL}/${id}`, data)
+export const createPatient = (data) => API.post('', data)
+
+export const updatePatient = (id, data) => API.put(`/${id}`, data)
 
 export const togglePatientStatus = (id, isDone) =>
-  axios.patch(`${BASE_URL}/${id}/status`, { isDone })
+  API.patch(`/${id}/status`, { isDone })
 
-export const deletePatient = (id) => axios.delete(`${BASE_URL}/${id}`)
+export const deletePatient = (id) => API.delete(`/${id}`)
