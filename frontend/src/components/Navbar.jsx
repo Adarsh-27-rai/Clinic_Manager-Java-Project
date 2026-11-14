@@ -3,119 +3,102 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
 
-function Navbar() {
+export default function Navbar() {
   const location = useLocation()
   const navigate = useNavigate()
   const { user, logout } = useAuth()
   const { showToast } = useToast()
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   const isActive = (path) => location.pathname === path
 
-  const navLinkClass = (path) =>
-    `px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
-      isActive(path)
-        ? 'bg-blue-600 text-white shadow-xs'
-        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-    }`
-
   const handleLogout = () => {
     logout()
-    showToast('Signed out successfully')
+    showToast('You have been signed out.')
     navigate('/login')
   }
 
+  const linkStyle = (path) =>
+    `px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+      isActive(path)
+        ? 'bg-blue-600 text-white'
+        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+    }`
+
   return (
-    <nav className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Brand Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-700 to-indigo-600 text-white flex items-center justify-center shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 4v16m8-8H4" />
-              </svg>
+    <nav className="bg-white border-b border-slate-200 sticky top-0 z-40">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="flex items-center justify-between h-14">
+          {/* Logo / Title */}
+          <Link to="/" className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-base">
+              +
             </div>
-            <div>
-              <div className="font-extrabold text-base tracking-tight text-slate-900 flex items-center gap-1.5">
-                MediSync
-                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-blue-50 text-blue-700 uppercase tracking-wider">
-                  Clinic
-                </span>
-              </div>
-              <p className="text-[10px] text-slate-400 font-medium -mt-0.5">Clinical Practice Portal</p>
+            <div className="flex flex-col">
+              <span className="font-bold text-slate-900 text-sm tracking-tight leading-none">
+                Clinic Manager
+              </span>
+              <span className="text-[10px] text-slate-400 font-medium">Doctor's Outpatient Log</span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-2">
-            <div className="flex items-center gap-1 p-1 bg-slate-50 border border-slate-200/60 rounded-xl mr-2">
-              <Link to="/" className={navLinkClass('/')}>
+            <div className="flex items-center gap-1 bg-slate-50 p-1 rounded-xl border border-slate-200/60">
+              <Link to="/" className={linkStyle('/')}>
                 Dashboard
               </Link>
               {user && (
                 <>
-                  <Link to="/patients" className={navLinkClass('/patients')}>
-                    Patient Directory
+                  <Link to="/patients" className={linkStyle('/patients')}>
+                    Patients
                   </Link>
-                  <Link to="/patients/add" className={navLinkClass('/patients/add')}>
-                    + New Patient
+                  <Link to="/patients/add" className={linkStyle('/patients/add')}>
+                    + Add Patient
                   </Link>
                 </>
               )}
             </div>
 
-            {/* Auth actions */}
             {user ? (
-              <div className="flex items-center gap-3 pl-2 border-l border-slate-200">
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200/70">
-                  <div className="w-6 h-6 rounded-lg bg-blue-600 text-white text-xs font-bold flex items-center justify-center">
-                    {user.username?.charAt(0).toUpperCase()}
-                  </div>
-                  <div className="text-left">
-                    <span className="text-xs font-bold text-slate-800 block leading-tight">
-                      Dr. {user.username}
-                    </span>
-                    <span className="text-[10px] text-emerald-600 font-semibold block leading-tight">
-                      ● Active
-                    </span>
-                  </div>
-                </div>
-
+              <div className="flex items-center gap-3 pl-3 border-l border-slate-200">
+                <span className="text-xs font-semibold text-slate-700">
+                  Dr. {user.username}
+                </span>
                 <button
                   onClick={handleLogout}
-                  className="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-rose-600 hover:bg-rose-50 border border-transparent hover:border-rose-200 transition-all cursor-pointer"
-                  title="Sign out of portal"
+                  className="px-2.5 py-1 text-xs font-medium text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
                 >
                   Logout
                 </button>
               </div>
             ) : (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 pl-2">
                 <Link
                   to="/login"
-                  className="px-4 py-2 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-100 transition-colors"
+                  className="px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-100 rounded-lg transition-colors"
                 >
-                  Sign In
+                  Login
                 </Link>
                 <Link
                   to="/register"
-                  className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-xs transition-all"
+                  className="px-3 py-1.5 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
                 >
-                  Register Account
+                  Register
                 </Link>
               </div>
             )}
           </div>
 
-          {/* Mobile menu button */}
-          <div className="flex md:hidden items-center">
+          {/* Mobile hamburger */}
+          <div className="md:hidden flex items-center">
             <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-xl text-slate-600 hover:bg-slate-100 focus:outline-none"
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="p-1.5 rounded-lg text-slate-600 hover:bg-slate-100"
+              aria-label="Toggle menu"
             >
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                {mobileMenuOpen ? (
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                {menuOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                 ) : (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -126,13 +109,13 @@ function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div className="md:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-5 space-y-3">
+      {/* Mobile Menu */}
+      {menuOpen && (
+        <div className="md:hidden border-t border-slate-200 bg-white px-4 py-3 space-y-2">
           <Link
             to="/"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2 rounded-lg text-sm font-bold text-slate-700 hover:bg-slate-50"
+            onClick={() => setMenuOpen(false)}
+            className="block px-3 py-2 text-xs font-semibold text-slate-700 rounded-lg hover:bg-slate-50"
           >
             Dashboard
           </Link>
@@ -140,44 +123,44 @@ function Navbar() {
             <>
               <Link
                 to="/patients"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 rounded-lg text-sm font-bold text-slate-700 hover:bg-slate-50"
+                onClick={() => setMenuOpen(false)}
+                className="block px-3 py-2 text-xs font-semibold text-slate-700 rounded-lg hover:bg-slate-50"
               >
-                Patient Directory
+                Patients
               </Link>
               <Link
                 to="/patients/add"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 rounded-lg text-sm font-bold text-blue-600 hover:bg-blue-50"
+                onClick={() => setMenuOpen(false)}
+                className="block px-3 py-2 text-xs font-semibold text-blue-600 rounded-lg hover:bg-blue-50"
               >
-                + Register Patient
+                + Add Patient
               </Link>
-              <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-700">Dr. {user.username}</span>
+              <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
+                <span className="text-xs font-semibold text-slate-700">Dr. {user.username}</span>
                 <button
                   onClick={() => {
-                    setMobileMenuOpen(false)
+                    setMenuOpen(false)
                     handleLogout()
                   }}
-                  className="text-xs font-bold text-rose-600 hover:underline"
+                  className="text-xs text-rose-600 font-semibold"
                 >
                   Logout
                 </button>
               </div>
             </>
           ) : (
-            <div className="pt-3 border-t border-slate-100 flex gap-2">
+            <div className="pt-2 border-t border-slate-100 flex gap-2">
               <Link
                 to="/login"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex-1 text-center py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-800"
+                onClick={() => setMenuOpen(false)}
+                className="flex-1 text-center py-2 text-xs font-semibold text-slate-700 bg-slate-100 rounded-lg"
               >
-                Sign In
+                Login
               </Link>
               <Link
                 to="/register"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex-1 text-center py-2 rounded-xl text-xs font-bold bg-blue-600 text-white"
+                onClick={() => setMenuOpen(false)}
+                className="flex-1 text-center py-2 text-xs font-semibold text-white bg-blue-600 rounded-lg"
               >
                 Register
               </Link>
@@ -188,5 +171,3 @@ function Navbar() {
     </nav>
   )
 }
-
-export default Navbar
